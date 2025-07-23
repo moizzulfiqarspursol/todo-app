@@ -1,0 +1,16 @@
+<!-- <card></card> -->
+ <!-- <div>
+    <ul *ngFor="let item of todoItems">
+      <li>{{ item }}</li>
+    </ul>
+ </div> -->
+
+ <div>
+     <ul *ngFor="let item of todoItems; let i = index">
+         <li>
+          <input type="checkbox" (click)="onDelete(i)"/>
+          {{ item.title }} - {{ item.description }} - {{ item.priority }}
+          <!-- <button (click)="onDelete(i)">Delete</button> -->
+    </li>
+  </ul>
+</div>

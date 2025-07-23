@@ -1,0 +1,9 @@
+<div class="form-container">
+    <input [(ngModel)]="title" placeholder="title"/>
+    <textarea [(ngModel)]="description" placeholder="description"></textarea>
+    <select [(ngModel)]="priority">
+       <option *ngFor="let type of priorities" [value]="type">{{ type }}</option>
+        <!-- <option [value]="1">1</option> -->
+    </select>
+    <button (click) = "onSubmitForm()">Submit</button>
+</div>

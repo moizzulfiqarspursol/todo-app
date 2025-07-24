@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ITodo, Priority } from '../../models/model'
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ITodo, Priority } from '../../models/todo.model'
 import { FormsModule } from '@angular/forms';
 import { NgFor } from '@angular/common';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-form',
@@ -13,28 +14,40 @@ import { NgFor } from '@angular/common';
 export class FormComponent {
   title: string = '';
   description: string = '';
-  priority: Priority | null = Priority.LOW;
-
+  priority: Priority = Priority.LOW;
   priorities: Priority[] = [Priority.LOW, Priority.MEDIUM, Priority.HIGH];
-  
-  @Output() onSubmit: EventEmitter<ITodo> = new EventEmitter<ITodo>();
 
+  @ViewChild('titleInput') titleInputRef!: ElementRef<HTMLInputElement>;
+  private cleanupTimer: any;
 
-  // onChangeTitle(event: any): void {
-  //   this.title = event.target.value;
-  // }
-
-  // onChangeDesc(event: any): void {
-  //   this.description = event.target.value;
-  // }
+  constructor(private todoService: TodoService) {}
 
   onSubmitForm(): void {
-      const newTodo: ITodo = {
-        id: Date.now(), // Using timestamp as a unique ID
-        title: this.title,
-        description: this.description,
-        priority: this.priority || Priority.LOW // Default to LOW if no priority is set
-      };  
-      this.onSubmit.emit(newTodo);
+    const newTodo: Omit<ITodo, 'id'> = {
+      title: this.title,
+      description: this.description,
+      priority: this.priority,
+      createdAt: new Date(),
+      completed: false
+    };
+    this.todoService.addTodo(newTodo as ITodo);
+    this.clearForm();
+  }
+
+  private clearForm() {
+    this.title = '';
+    this.description = '';
+    this.priority = Priority.LOW;
+    this.titleInputRef?.nativeElement.focus();
+  }
+
+  ngAfterViewInit(): void {
+    this.titleInputRef?.nativeElement.focus();
+  }
+
+  ngOnDestroy(): void {
+    if (this.cleanupTimer) {
+      clearInterval(this.cleanupTimer);
     }
+  }
 }

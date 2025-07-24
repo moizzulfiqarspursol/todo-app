@@ -4,7 +4,7 @@ import { TodoModule } from './todo/todo.module';
 import { FormComponent } from "./todo/form/form.component";
 import { ListComponent } from "./todo/list/list.component";
 import { CommonModule } from '@angular/common';
-import { ITodo } from './models/model';
+import { ITodo } from './models/todo.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,10 +16,4 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'todo-app';
-  todoItems: ITodo[] = [];
-
-  addTodo(value: ITodo): void {
-    this.todoItems = [...this.todoItems, value];
-  }
-
 }

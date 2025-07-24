@@ -6,6 +6,7 @@ import { ListComponent } from "./todo/list/list.component";
 import { CommonModule } from '@angular/common';
 import { ITodo } from './models/todo.model';
 import { FormsModule } from '@angular/forms';
+import { TodoService } from './services/todo.service';
 
 @Component({
   selector: 'app-root',
@@ -15,5 +16,16 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'todo-app';
+   title = 'todo-app';
+  todos: ITodo[] = [];
+
+  constructor(private todoService: TodoService) {
+    this.todoService.todos$.subscribe(todos => {
+      this.todos = todos;
+    });
+  }
+
+  handleTodoSubmit(todoData: Omit<ITodo, 'id'>) {
+    this.todoService.addTodo(todoData as ITodo);
+  }
 }

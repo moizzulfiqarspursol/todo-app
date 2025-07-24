@@ -1,37 +1,68 @@
+$color-low: #28a745;
+$color-medium: #ffc107;
+$color-high: #dc3545;
+
+$bg-low: #d4f4dd;
+$bg-medium: #fff3cd;
+$bg-high: #f8d7da;
+
+$form-accent: #3a3a7c;
+$form-bg: #ffffff;
+$form-border: rgb(223, 218, 218);
+
+@mixin input-style {
+  padding: 10px 12px;
+  border: 1.5px solid $form-border;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border 0.2s;
+  margin-bottom: 4px;
+
+  &:focus {
+    border-color: $form-accent;
+    outline: none;
+  }
+}
+
+@mixin card-box {
+  background: $form-bg;
+  border: 1px solid $form-border;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 340px;
-  padding: 28px 24px;
-  margin: 24px auto 0 auto;
-  border: 2px solid #3a3a7c;
-  border-radius: 12px;
-  background: #f8f9fa;
-  box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+  width: 420px;
+  padding: 24px;
+  margin: 24px auto 0;
+  @include card-box;
+  background: white;
+  border: 0px solid white;
+  border-radius: 4px;;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
 
   h1 {
     text-align: center;
-    font-size: 1.7rem;
-    color: #3a3a7c;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+    font-size: 1.5rem;
+    color: $form-accent;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
   }
 
-  input, textarea, select {
-    // width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #bfc4e2;
-    border-radius: 6px;
-    font-size: 1rem;
-    background: #fff;
-    transition: border 0.2s;
-    margin-bottom: 4px;
+  h2 {
+    font-size: 1.3rem;
+    color: #2a2a2a;
+    margin: 2px 0px 0px 0px;
+  }
 
-    &:focus {
-      border-color: #3a3a7c;
-      outline: none;
-    }
+  input,
+  textarea,
+  select {
+    @include input-style;
   }
 
   textarea {
@@ -47,18 +78,18 @@
   button {
     width: 100%;
     padding: 12px;
-    background-color: #3a3a7c;
+    background-color: $form-accent;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    box-shadow: 0 1px 4px rgba(60,60,120,0.07);
+    box-shadow: 0 1px 4px rgba(60, 60, 120, 0.07);
     transition: background 0.2s;
 
     &:hover {
-      background-color: #23235a;
+      background-color: darken($form-accent, 10%);
     }
   }
 }
@@ -67,11 +98,13 @@
   background-color: #4caf50;
   color: white;
   padding: 10px 16px;
-  margin-bottom: 12px;
+  margin: 16px auto 8px auto;
   border-radius: 4px;
   font-weight: 500;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  width: 420px;
   animation: fadeInOut 3s ease-in-out forwards;
+  text-align: center;
 }
 
 @keyframes fadeInOut {

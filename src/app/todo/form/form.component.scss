@@ -98,6 +98,10 @@ $form-border: rgb(223, 218, 218);
   width: 420px;
   animation: fadeInOut 3s ease-in-out forwards;
   text-align: center;
+
+  &.error {
+    background-color: #dc3545;
+  }
 }
 
 @keyframes fadeInOut {

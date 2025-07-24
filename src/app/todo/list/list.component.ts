@@ -2,6 +2,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ITodo } from '../../models/todo.model';
 import { TodoService } from '../../services/todo.service';
+import { delay } from 'rxjs';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class ListComponent {
   }
 
   toggleCompletion(todoId: number): void {
-    this.todoService.toggleTodoCompletion(todoId);
+    setTimeout(() => {
+      this.todoService.toggleTodoCompletion(todoId);
+    }, 300);
   }
 }

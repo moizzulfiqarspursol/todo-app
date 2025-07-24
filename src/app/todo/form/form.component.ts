@@ -17,12 +17,22 @@ export class FormComponent implements AfterViewInit, OnDestroy {
   priority: Priority = Priority.LOW;
   priorities = [Priority.LOW, Priority.MEDIUM, Priority.HIGH];
   savedMessage = '';
+  
+  toastType: 'success' | 'error' = 'success';
   private toastTimer: any;
 
   @ViewChild('titleInput') titleInputRef!: ElementRef<HTMLInputElement>;
   @Output() todoSubmit = new EventEmitter<Omit<ITodo, 'id'>>();
 
   onSubmitForm(): void {
+    if (!this.title?.trim() || !this.description?.trim()) {
+    this.savedMessage = 'Title and Description are required!';
+    this.toastType = 'error';
+    setTimeout(() => this.savedMessage = '', 2500);
+    return;
+  }
+
+
     if (!this.title.trim()) return;
 
     const newTodo: Omit<ITodo, 'id'> = {

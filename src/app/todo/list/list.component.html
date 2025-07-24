@@ -5,13 +5,28 @@
     </ul>
  </div> -->
 
- <div class="list-container">
+ <!-- <div class="list-container">
   <h1>ToDo</h1>
      <ul *ngFor="let item of todoItems; let i = index">
          <li>
           <input type="checkbox" (click)="onDelete(i)"/>
           {{ item.title }} - {{ item.description }} - {{ item.priority }}
-          <!-- <button (click)="onDelete(i)">Delete</button> -->
+    </li>
+  </ul>
+</div> -->
+
+<div class="list-container">
+  <h1>ToDo</h1>
+  <ul>
+    <li *ngFor="let item of todoItems; let i = index" class="todo-item">
+      <label class="checkbox-container">
+        <input type="checkbox" (click)="onDelete(i)" />
+      </label>
+      <div class="todo-details">
+        <span class="todo-title">{{ item.title }}</span>
+        <span class="todo-desc">{{ item.description }}</span>
+        <span class="todo-priority {{ item.priority }}">{{ item.priority }}</span>
+      </div>
     </li>
   </ul>
 </div>

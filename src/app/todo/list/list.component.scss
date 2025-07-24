@@ -1,24 +1,113 @@
+// .list-container {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+//   width: 300px;
+//   padding: 20px;
+//   margin: 10px 0px 0px 0px;
+//   border: 2px solid black;
+
+//   h1 {
+//     text-align: center;
+//   }
+
+//   ul {
+//     list-style-type: none;
+//   }
+
+//   li {
+//     border: 0px;
+//     border-radius: 5px;
+//     padding: 20px;
+//     background-color: rgb(110, 110, 161);
+//   }
+// }
+
 .list-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 300px;
-  padding: 20px;
-  margin: 10px 0px 0px 0px;
-  border: 2px solid black;
+  width: 350px;
+  padding: 24px;
+  margin: 20px auto 10px auto;
+  border: 2px solid #222;
+  border-radius: 12px;
+  background: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
   h1 {
     text-align: center;
+    font-size: 2rem;
+    color: #3a3a7c;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
   }
 
   ul {
     list-style-type: none;
+    padding: 0;
+    margin: 0;
   }
 
-  li {
-    border: 0px;
-    border-radius: 5px;
-    padding: 20px;
-    background-color: rgb(110, 110, 161);
+  .todo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    background: #e3e6f5;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(60,60,120,0.07);
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: 0 2px 8px rgba(60,60,120,0.15);
+    }
+  }
+
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .todo-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .todo-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #222;
+  }
+
+  .todo-desc {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .todo-priority {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    &.low {
+      background: #d4f4dd;
+      color: #218838;
+    }
+    &.medium {
+      background: #fff3cd;
+      color: #856404;
+    }
+    &.high {
+      background: #f8d7da;
+      color: #721c24;
+    }
   }
 }

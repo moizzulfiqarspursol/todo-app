@@ -1,28 +1,32 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ITodo, Priority } from '../../models/todo.model'
 import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [FormsModule, NgFor],
+  imports: [FormsModule, NgFor, CommonModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
-export class FormComponent {
+export class FormComponent implements AfterViewInit, OnDestroy {
   title: string = '';
   description: string = '';
   priority: Priority = Priority.LOW;
+
   priorities: Priority[] = [Priority.LOW, Priority.MEDIUM, Priority.HIGH];
+  savedMessage: string = '';
+  private toastTimer: any;
 
   @ViewChild('titleInput') titleInputRef!: ElementRef<HTMLInputElement>;
-  private cleanupTimer: any;
 
   constructor(private todoService: TodoService) {}
 
   onSubmitForm(): void {
+    if (!this.title.trim()) return;
+
     const newTodo: Omit<ITodo, 'id'> = {
       title: this.title,
       description: this.description,
@@ -30,11 +34,21 @@ export class FormComponent {
       createdAt: new Date(),
       completed: false
     };
+
     this.todoService.addTodo(newTodo as ITodo);
+    this.showToast('✅ Todo added!');
     this.clearForm();
   }
 
-  private clearForm() {
+  private showToast(message: string): void {
+    this.savedMessage = message;
+
+    this.toastTimer = setTimeout(() => {
+      this.savedMessage = '';
+    }, 3000);
+  }
+
+  private clearForm(): void {
     this.title = '';
     this.description = '';
     this.priority = Priority.LOW;
@@ -46,8 +60,8 @@ export class FormComponent {
   }
 
   ngOnDestroy(): void {
-    if (this.cleanupTimer) {
-      clearInterval(this.cleanupTimer);
+    if (this.toastTimer) {
+      clearTimeout(this.toastTimer);
     }
   }
 }

@@ -86,3 +86,21 @@
     }
   }
 }
+
+.toast {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  animation: fadeInOut 3s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}

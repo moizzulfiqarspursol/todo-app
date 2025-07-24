@@ -1,3 +1,6 @@
+<div *ngIf="savedMessage" class="toast">
+  {{ savedMessage }}
+</div>
 <div class="form-container">
   <h1>Add A ToDo</h1>
   <input #titleInput [(ngModel)]="title" placeholder="title"/>

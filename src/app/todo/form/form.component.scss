@@ -25,13 +25,6 @@ $form-border: rgb(223, 218, 218);
   }
 }
 
-@mixin card-box {
-  background: $form-bg;
-  border: 1px solid $form-border;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
@@ -39,7 +32,7 @@ $form-border: rgb(223, 218, 218);
   width: 420px;
   padding: 24px;
   margin: 24px auto 0;
-  @include card-box;
+  // @include card-box;
   background: white;
   border: 0px solid white;
   border-radius: 4px;;

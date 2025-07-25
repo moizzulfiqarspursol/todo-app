@@ -1,15 +1,4 @@
-$color-low: #28a745;
-$color-medium: #ffc107;
-$color-high: #dc3545;
-
-$bg-low: #d4f4dd;
-$bg-medium: #fff3cd;
-$bg-high: #f8d7da;
-
-@mixin priority-style($bg, $color) {
-  background-color: $bg;
-  color: $color;
-}
+@import '../../app.component.scss';
 
 .list-container {
   display: flex;

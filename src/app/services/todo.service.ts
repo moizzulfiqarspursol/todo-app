@@ -16,7 +16,6 @@ export class TodoService {
     this.loadTodos();
   }
 
-  // Load todos from the mock backend
   private loadTodos(): void {
     this.http
       .get<ITodo[]>(this.API_URL)
@@ -30,15 +29,6 @@ export class TodoService {
       )
       .subscribe((todos) => this.todosSubject.next(todos));
   }
-
-  // // Add new todo via POST request
-  // addTodo(todo: ITodo): void {
-  //   this.http.post<ITodo>(this.API_URL, todo).subscribe((createdTodo) => {
-  //     const current = this.todosSubject.getValue();
-  //     this.todosSubject.next([...current, createdTodo]);
-  //   });
-  // }
-
 
   addTodo(todo: ITodo): void {
     this.http.post<ITodo>(this.API_URL, todo).subscribe((createdTodo) => {

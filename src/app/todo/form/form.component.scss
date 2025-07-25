@@ -1,29 +1,8 @@
-$color-low: #28a745;
-$color-medium: #ffc107;
-$color-high: #dc3545;
-
-$bg-low: #d4f4dd;
-$bg-medium: #fff3cd;
-$bg-high: #f8d7da;
+@import '../../app.component.scss';
 
 $form-accent: #3a3a7c;
 $form-bg: #ffffff;
 $form-border: rgb(223, 218, 218);
-
-@mixin input-style {
-  padding: 10px 12px;
-  border: 1.5px solid $form-border;
-  border-radius: 6px;
-  font-size: 1rem;
-  background: #fff;
-  transition: border 0.2s;
-  margin-bottom: 4px;
-
-  &:focus {
-    border-color: $form-accent;
-    outline: none;
-  }
-}
 
 .form-container {
   display: flex;

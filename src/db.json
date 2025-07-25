@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "id": "7d99",
+      "email": "vd",
+      "password": "1234"
+    }
+  ],
   "todos": [
     {
       "id": "4c89",
@@ -6,78 +13,6 @@
       "description": "Test",
       "priority": "LOW",
       "createdAt": "2025-07-24T11:18:16.888Z",
-      "completed": false
-    },
-    {
-      "id": "65d2",
-      "title": "test",
-      "description": "test",
-      "priority": "MEDIUM",
-      "createdAt": "2025-07-24T11:18:22.513Z",
-      "completed": true
-    },
-    {
-      "id": "1154",
-      "title": "test",
-      "description": "test",
-      "priority": "HIGH",
-      "createdAt": "2025-07-24T11:18:27.931Z",
-      "completed": true
-    },
-    {
-      "id": "ed65",
-      "title": "test2 ",
-      "description": "sdvsv",
-      "priority": "LOW",
-      "createdAt": "2025-07-24T11:18:33.761Z",
-      "completed": true
-    },
-    {
-      "id": "5312",
-      "title": "sdvsd",
-      "description": "vdsdvs",
-      "priority": "MEDIUM",
-      "createdAt": "2025-07-24T11:18:38.223Z",
-      "completed": true
-    },
-    {
-      "id": "a529",
-      "title": "dvsv",
-      "description": "sdvsdv",
-      "priority": "HIGH",
-      "createdAt": "2025-07-24T11:18:40.974Z",
-      "completed": true
-    },
-    {
-      "id": "4b72",
-      "title": "bbfsb",
-      "description": "fbfbb",
-      "priority": "LOW",
-      "createdAt": "2025-07-24T11:59:57.784Z",
-      "completed": true
-    },
-    {
-      "id": "b113",
-      "title": "dbfd",
-      "description": "bgdb",
-      "priority": "LOW",
-      "createdAt": "2025-07-24T12:00:05.292Z",
-      "completed": true
-    },
-    {
-      "id": "4bc6",
-      "title": "bdfbf",
-      "description": "xc cx ",
-      "priority": "LOW",
-      "createdAt": "2025-07-24T12:00:51.232Z",
-      "completed": true
-    },
-    {
-      "id": "38eb",
-      "title": "  s ",
-      "description": "cs c ",
-      "priority": "LOW",
-      "createdAt": "2025-07-24T12:05:30.760Z",
       "completed": false
     }
   ]

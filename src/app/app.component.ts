@@ -16,16 +16,16 @@ import { TodoService } from './services/todo.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-   title = 'todo-app';
-  todos: ITodo[] = [];
+  //  title = 'todo-app';
+  // todos: ITodo[] = [];
 
-  constructor(private todoService: TodoService) {
-    this.todoService.todos$.subscribe(todos => {
-      this.todos = todos;
-    });
-  }
+  // constructor(private todoService: TodoService) {
+  //   this.todoService.todos$.subscribe(todos => {
+  //     this.todos = todos;
+  //   });
+  // }
 
-  handleTodoSubmit(todoData: Omit<ITodo, 'id'>) {
-    this.todoService.addTodo(todoData as ITodo);
-  }
+  // handleTodoSubmit(todoData: Omit<ITodo, 'id'>) {
+  //   this.todoService.addTodo(todoData as ITodo);
+  // }
 }

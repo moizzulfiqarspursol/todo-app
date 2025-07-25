@@ -28,7 +28,7 @@ export class FormComponent implements AfterViewInit, OnDestroy {
     if (!this.title?.trim() || !this.description?.trim()) {
     this.savedMessage = 'Title and Description are required!';
     this.toastType = 'error';
-    setTimeout(() => this.savedMessage = '', 2500);
+    setTimeout(() => this.savedMessage, 2500);
     return;
   }
 

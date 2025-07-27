@@ -1,13 +1,11 @@
 <nav>
   <ul class="navbar">
     <li class="nav-left">
-    <a routerLink="/" class="nav-button home-button">Home</a>
+      <a routerLink="/home" class="nav-button">Home</a>
     </li>
     <li class="nav-right">
-      <a routerLink="/social-links" class="nav-button">Social Links</a>
-      <a routerLink="/counter" class="nav-button">Counter</a>
-      <a routerLink="/todo-list" class="nav-button">ToDo List</a>
+      <a *ngIf="!isLoginPage && !isLoggedIn" routerLink="/signup" class="nav-button">Signup</a>
+      <button *ngIf="isLoggedIn" class="nav-button" (click)="logout()">Logout</button>
     </li>
   </ul>
 </nav>
-

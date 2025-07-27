@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { ITodo } from './models/todo.model';
 import { FormsModule } from '@angular/forms';
 import { TodoService } from './services/todo.service';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TodoModule, FormComponent, ListComponent, CommonModule, FormsModule],
+  imports: [RouterOutlet, TodoModule, FormComponent, ListComponent, CommonModule, FormsModule, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,0 +1,78 @@
+@import '../../app.component.scss'; // Make sure it includes your shared variables/mixins
+
+$auth-accent: #3a3a7c;
+$auth-bg: #ffffff;
+
+.auth-form {
+    width: 420px;
+    margin: 60px auto 0 auto;
+    padding: 28px;
+    background-color: $auth-bg;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h2 {
+        text-align: center;
+        color: $auth-accent;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        input {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+
+            &:focus {
+                outline: none;
+                border-color: $auth-accent;
+                box-shadow: 0 0 4px rgba(58, 58, 124, 0.2);
+            }
+        }
+
+        button {
+            padding: 12px;
+            background-color: $auth-accent;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+
+            &:hover {
+                background-color: darken($auth-accent, 10%);
+            }
+        }
+    }
+
+    .error {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .success {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: 500;
+    }
+}

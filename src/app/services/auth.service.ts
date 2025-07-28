@@ -18,6 +18,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<IUser | null> {
+    debugger
     return this.http
       .get<IUser[]>(`${this.API_URL}?email=${email}&password=${password}`)
       .pipe(

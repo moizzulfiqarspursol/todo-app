@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { ITodo } from '../models/todo.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormComponent } from '../todo/form/form.component';
 import { ListComponent } from '../todo/list/list.component';

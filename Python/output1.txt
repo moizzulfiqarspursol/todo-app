@@ -1,0 +1,248 @@
+C:\Users\moiz.zulfiqar\Documents\Learning\Angular\learning-with-ammar\todo-app\src\app\core\state\todos\todo.actions.ts: [
+import { createAction, props } from '@ngrx/store';
+import { ITodo } from '../../../models/todo.model';
+
+// Load All Todos
+export const loadTodos = createAction('[Todo] Load Todos');
+export const loadTodosSuccess = createAction(
+  '[Todo] Load Todos Success',
+  props<{ todos: ITodo[] }>()
+);
+export const loadTodosFailure = createAction(
+  '[Todo] Load Todos Failure',
+  props<{ error: string }>()
+);
+
+// Add Todo
+export const addTodo = createAction(
+  '[Todo] Add Todo',
+  props<{ todo: Omit<ITodo, 'id'> }>()
+);
+export const addTodoSuccess = createAction(
+  '[Todo] Add Todo Success',
+  props<{ todo: ITodo }>()
+);
+export const addTodoFailure = createAction(
+  '[Todo] Add Todo Failure',
+  props<{ error: string }>()
+);
+
+// Toggle Completion
+export const toggleTodo = createAction(
+  '[Todo] Toggle Todo',
+  props<{ id: number }>()
+);
+export const toggleTodoSuccess = createAction(
+  '[Todo] Toggle Todo Success',
+  props<{ updatedTodo: ITodo }>()
+);
+export const toggleTodoFailure = createAction(
+  '[Todo] Toggle Todo Failure',
+  props<{ error: string }>()
+);
+
+]
+
+C:\Users\moiz.zulfiqar\Documents\Learning\Angular\learning-with-ammar\todo-app\src\app\core\state\todos\todo.effects.ts: [
+import { Injectable, inject } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, switchMap, concatMap, of } from 'rxjs';
+import * as TodoActions from './todo.actions';
+import { TodoService } from '../../../services/todo.service';
+import { ITodo } from '../../../models/todo.model';
+
+@Injectable()
+export class TodoEffects {
+  private actions$ = inject(Actions);
+  private todoService = inject(TodoService);
+
+  // Effect: Load Todos
+  loadTodos$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.loadTodos),
+      switchMap(() =>
+        this.todoService.getTodos().pipe(
+          map((todos: ITodo[]) =>
+            TodoActions.loadTodosSuccess({ todos })
+          ),
+          catchError((error) =>
+            of(TodoActions.loadTodosFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  // Effect: Add Todo
+  addTodo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.addTodo),
+      concatMap(({ todo }) =>
+        this.todoService.addTodo(todo).pipe(
+          map((createdTodo: ITodo) =>
+            TodoActions.addTodoSuccess({ todo: createdTodo })
+          ),
+          catchError((error) =>
+            of(TodoActions.addTodoFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  // Effect: Toggle Completion
+  toggleTodo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TodoActions.toggleTodo),
+      concatMap(({ id }) =>
+        this.todoService.toggleTodoCompletion(id).pipe(
+          map((updatedTodo: ITodo) =>
+            TodoActions.toggleTodoSuccess({ updatedTodo })
+          ),
+          catchError((error) =>
+            of(TodoActions.toggleTodoFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+}
+]
+
+C:\Users\moiz.zulfiqar\Documents\Learning\Angular\learning-with-ammar\todo-app\src\app\core\state\todos\todo.feature.ts: [
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { ITodo } from '../../../models/todo.model';
+import * as TodoActions from './todo.actions';
+
+// 1. Extend EntityState to include custom metadata
+export interface TodoState extends EntityState<ITodo> {
+  loading: boolean;
+  loaded: boolean;
+  error: string | null;
+}
+
+// 2. Create adapter
+export const todoAdapter = createEntityAdapter<ITodo>();
+
+// 3. Define initial state
+export const initialState: TodoState = todoAdapter.getInitialState({
+  loading: false,
+  loaded: false,
+  error: null,
+});
+
+// 4. Create the reducer using createFeature
+export const todoFeature = createFeature({
+  name: 'todos',
+  reducer: createReducer(
+    initialState,
+
+    // Load Todos
+    on(TodoActions.loadTodos, state => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(TodoActions.loadTodosSuccess, (state, { todos }) =>
+      todoAdapter.setAll(todos, {
+        ...state,
+        loading: false,
+        loaded: true,
+      })
+    ),
+    on(TodoActions.loadTodosFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      loaded: false,
+      error,
+    })),
+
+    // Add Todo
+    on(TodoActions.addTodo, state => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(TodoActions.addTodoSuccess, (state, { todo }) =>
+      todoAdapter.addOne(todo, {
+        ...state,
+        loading: false,
+      })
+    ),
+    on(TodoActions.addTodoFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })),
+
+    // Toggle Completion
+    on(TodoActions.toggleTodo, state => ({
+      ...state,
+      loading: true,
+      error: null,
+    })),
+    on(TodoActions.toggleTodoSuccess, (state, { updatedTodo }) =>
+      todoAdapter.updateOne(
+        { id: updatedTodo.id, changes: updatedTodo },
+        {
+          ...state,
+          loading: false,
+        }
+      )
+    ),
+    on(TodoActions.toggleTodoFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    }))
+  ),
+});
+
+// 5. Export selectors
+export const {
+  selectAll: selectAllTodos,
+  selectEntities: selectTodoEntities,
+  selectIds: selectTodoIds,
+  selectTotal: selectTodoTotal,
+} = todoAdapter.getSelectors(todoFeature.selectTodosState);
+
+]
+
+C:\Users\moiz.zulfiqar\Documents\Learning\Angular\learning-with-ammar\todo-app\src\app\core\state\todos\todo.store.ts: [
+import { Injectable, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as TodoActions from './todo.actions';
+import {
+  selectAllTodos,
+  todoFeature,
+} from './todo.feature';
+import { ITodo } from '../../../models/todo.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TodoStore {
+  private store = inject(Store);
+  
+  todos$: Observable<ITodo[]> = this.store.select(selectAllTodos);
+  loading$: Observable<boolean> = this.store.select(todoFeature.selectLoading);
+  loaded$: Observable<boolean> = this.store.select(todoFeature.selectLoaded);
+  error$: Observable<string | null> = this.store.select(todoFeature.selectError);
+
+  loadTodos(): void {
+    this.store.dispatch(TodoActions.loadTodos());
+  }
+
+  addTodo(todo: Omit<ITodo, 'id'>): void {
+    console.log("addTodo called with todo:", todo);
+    this.store.dispatch(TodoActions.addTodo({ todo }));
+  }
+
+  toggleTodo(id: number): void {
+    this.store.dispatch(TodoActions.toggleTodo({ id }));
+  }
+}
+]
+

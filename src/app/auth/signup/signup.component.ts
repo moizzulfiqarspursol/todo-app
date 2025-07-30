@@ -21,15 +21,46 @@ export class SignupComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSignup(): void {
-    const newUser: IUser = { email: this.email, password: this.password };
+    // Clear previous messages
+    this.success = '';
+    this.error = '';
+
+    // Validate input fields
+    if (!this.email?.trim()) {
+      this.error = 'Email is required.';
+      return;
+    }
+
+    if (!this.password?.trim()) {
+      this.error = 'Password is required.';
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email.trim())) {
+      this.error = 'Please enter a valid email address.';
+      return;
+    }
+
+    if (this.password.length < 4) {
+      this.error = 'Password must be at least 4 characters long.';
+      return;
+    }
+
+    const newUser: IUser = { 
+      email: this.email.trim(), 
+      password: this.password 
+    };
 
     this.authService.signup(newUser).subscribe({
       next: () => {
         this.success = 'Signup successful! Redirecting...';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
-      error: () => {
-        this.error = 'Signup failed. Try again.';
+      error: (err) => {
+        console.error('Signup error:', err);
+        this.error = 'Signup failed. Please try again.';
       }
     });
   }

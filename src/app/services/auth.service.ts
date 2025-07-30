@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, catchError, of } from 'rxjs';
 import { IUser } from '../models/user.model';
 
 @Injectable({
@@ -18,17 +18,27 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<IUser | null> {
-    debugger
+    // Don't make API call if email or password is empty
+    if (!email?.trim() || !password?.trim()) {
+      return of(null);
+    }
+
     return this.http
-      .get<IUser[]>(`${this.API_URL}?email=${email}&password=${password}`)
+      .get<IUser[]>(`${this.API_URL}?email=${encodeURIComponent(email.trim())}&password=${encodeURIComponent(password)}`)
       .pipe(
         map(users => {
-          if (users.length > 1) {
+          if (users && users.length === 1) {
             const user = users[0];
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
-            return user;
+            if (user.email === email.trim() && user.password === password) {
+              localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
+              return user;
+            }
           }
           return null;
+        }),
+        catchError(error => {
+          console.error('Login API error:', error);
+          return of(null);
         })
       );
   }

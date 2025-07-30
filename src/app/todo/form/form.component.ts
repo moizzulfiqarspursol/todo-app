@@ -31,6 +31,8 @@ export class FormComponent implements AfterViewInit, OnDestroy {
   constructor(private todoStore: TodoStore) {}
 
   onSubmitForm(): void {
+    console.log("onSubmitForm form component called");
+    debugger
     if (!this.title?.trim() || !this.description?.trim()) {
       this.savedMessage = 'Title and Description are required!';
       this.toastType = 'error';

@@ -19,6 +19,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin(): void {
+    debugger
     this.authService.login(this.email, this.password).subscribe((user) => {
       if (user) {
         this.router.navigate(['/home']);

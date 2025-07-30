@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as TodoActions from './todo.actions';
@@ -12,23 +12,19 @@ import { ITodo } from '../../../models/todo.model';
   providedIn: 'root',
 })
 export class TodoStore {
-  todos$!: Observable<ITodo[]>;
-  loading$!: Observable<boolean>;
-  loaded$!: Observable<boolean>;
-  error$!: Observable<string | null>;
-
-  constructor(private store: Store) {
-    this.todos$ = this.store.select(selectAllTodos);
-    this.loading$ = this.store.select(todoFeature.selectLoading);
-    this.loaded$ = this.store.select(todoFeature.selectLoaded);
-    this.error$ = this.store.select(todoFeature.selectError);
-  }
+  private store = inject(Store);
+  
+  todos$: Observable<ITodo[]> = this.store.select(selectAllTodos);
+  loading$: Observable<boolean> = this.store.select(todoFeature.selectLoading);
+  loaded$: Observable<boolean> = this.store.select(todoFeature.selectLoaded);
+  error$: Observable<string | null> = this.store.select(todoFeature.selectError);
 
   loadTodos(): void {
     this.store.dispatch(TodoActions.loadTodos());
   }
 
   addTodo(todo: Omit<ITodo, 'id'>): void {
+    console.log("addTodo called with todo:", todo);
     this.store.dispatch(TodoActions.addTodo({ todo }));
   }
 

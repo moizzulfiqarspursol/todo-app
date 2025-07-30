@@ -23,7 +23,7 @@ export class AuthService {
       .get<IUser[]>(`${this.API_URL}?email=${email}&password=${password}`)
       .pipe(
         map(users => {
-          if (users.length > 0) {
+          if (users.length > 1) {
             const user = users[0];
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
             return user;

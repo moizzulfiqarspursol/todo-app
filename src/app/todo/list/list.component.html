@@ -1,7 +1,7 @@
 <div class="list-container">
   <h2>ToDo</h2>
   <ul>
-    <li *ngFor="let item of incompleteTodos" class="todo-item">
+    <li *ngFor="let item of incompleteTodos()" class="todo-item">
       <label class="checkbox-container" [ngClass]="item.priority.toLowerCase()">
         <input type="checkbox" (change)="toggleCompletion(item.id)" />
         <span class="custom-checkbox"></span>
@@ -19,7 +19,7 @@
 
   <h2>Completed</h2>
   <ul>
-    <li *ngFor="let item of completedTodos" class="todo-item completed">
+    <li *ngFor="let item of completedTodos()" class="todo-item completed">
       <label class="checkbox-container" [ngClass]="item.priority.toLowerCase()">
         <input type="checkbox" checked (change)="toggleCompletion(item.id)" />
         <span class="custom-checkbox"></span>

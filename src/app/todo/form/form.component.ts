@@ -1,49 +1,51 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { ITodo, Priority } from '../../models/todo.model'
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
-import { TodoService } from '../../services/todo.service';
+import { Priority } from '../../models/todo.model';
+import { TodoStore } from '../../core/state/todos/todo.store';
 
 @Component({
   selector: 'app-form',
   standalone: true,
   imports: [FormsModule, NgFor, CommonModule],
   templateUrl: './form.component.html',
-  styleUrl: './form.component.scss'
+  styleUrl: './form.component.scss',
 })
 export class FormComponent implements AfterViewInit, OnDestroy {
-   title = '';
+  title = '';
   description = '';
   priority: Priority = Priority.LOW;
   priorities = [Priority.LOW, Priority.MEDIUM, Priority.HIGH];
   savedMessage = '';
-  
   toastType: 'success' | 'error' = 'success';
   private toastTimer: any;
 
   @ViewChild('titleInput') titleInputRef!: ElementRef<HTMLInputElement>;
-  @Output() todoSubmit = new EventEmitter<Omit<ITodo, 'id'>>();
+
+  constructor(private todoStore: TodoStore) {}
 
   onSubmitForm(): void {
     if (!this.title?.trim() || !this.description?.trim()) {
-    this.savedMessage = 'Title and Description are required!';
-    this.toastType = 'error';
-    setTimeout(() => this.savedMessage, 2500);
-    return;
-  }
+      this.savedMessage = 'Title and Description are required!';
+      this.toastType = 'error';
+      setTimeout(() => (this.savedMessage = ''), 2500);
+      return;
+    }
 
-
-    if (!this.title.trim()) return;
-
-    const newTodo: Omit<ITodo, 'id'> = {
+    this.todoStore.addTodo({
       title: this.title,
       description: this.description,
       priority: this.priority,
       createdAt: new Date(),
       completed: false,
-    };
+    });
 
-    this.todoSubmit.emit(newTodo);
     this.showToast('Todo added!');
     this.clearForm();
   }

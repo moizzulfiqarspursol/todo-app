@@ -1,35 +1,30 @@
 import { CommonModule, NgFor } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { ITodo } from '../../models/todo.model';
-import { TodoService } from '../../services/todo.service';
-import { delay } from 'rxjs';
-
+import { TodoStore } from '../../core/state/todos/todo.store';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [CommonModule, NgFor],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss'
+  styleUrl: './list.component.scss',
 })
 export class ListComponent {
-   @Input() todos: ITodo[] = [];
+  private todoStore = inject(TodoStore);
+  todos = toSignal(this.todoStore.todos$);
 
-  incompleteTodos: ITodo[] = [];
-  completedTodos: ITodo[] = [];
-
-  constructor(private todoService: TodoService) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['todos']) {
-      this.incompleteTodos = this.todos.filter(t => !t.completed);
-      this.completedTodos = this.todos.filter(t => t.completed);
-    }
-  }
+  incompleteTodos = computed(() =>
+    this.todos()?.filter((t) => !t.completed) ?? []
+  );
+  completedTodos = computed(() =>
+    this.todos()?.filter((t) => t.completed) ?? []
+  );
 
   toggleCompletion(todoId: number): void {
     setTimeout(() => {
-      this.todoService.toggleTodoCompletion(todoId);
+      this.todoStore.toggleTodo(todoId);
     }, 300);
   }
 }
